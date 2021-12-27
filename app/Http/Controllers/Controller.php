@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
@@ -23,9 +24,18 @@ class Controller extends BaseController
         ]);
     }
 
-    public function update(Request $request)
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, User $user)
     {
-        dd($request->all());
+        $user->update($request->except('id'));
+        return response()->json([
+            'success' => true,
+            'message' => 'User successdully updated'
+        ], 200);
     }
 
 }

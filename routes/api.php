@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,5 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('users', [\App\Http\Controllers\Controller::class, 'test']);
-Route::put('users/{id}', [\App\Http\Controllers\Controller::class, 'update']);
+
+Route::post('registration', [UserController::class,'store']);
+Route::post('login', [UserController::class,'login']);
+Route::post('verify', [UserController::class, 'emailVerify']);
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('user_data', [UserController::class,'authuser']);
+    Route::patch('users/{user}', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::get('users/auth', [UserController::class,'authuser']);
+
+});
+
+Route::group(['middleware' => 'AdminAuth'], function ($router) {
+
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'test']);
+//    Route::post('login', 'AuthController@login');
+//    Route::post('logout', 'AuthController@logout');
+//    Route::post('refresh', 'AuthController@refresh');
+//    Route::post('me', 'AuthController@me');
+
+});
+

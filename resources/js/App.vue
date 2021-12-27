@@ -1,12 +1,12 @@
 <template>
-    <div class="App_vue">
+    <div>
         <router-view/>
     </div>
 </template>
 
 <script>
 export default {
-    name: "App.vue"
+    name: "Application"
 }
 </script>
 
